@@ -3,11 +3,20 @@ import Dashboard from './pages/Dashboard'
 import Login from './pages/Login'
 import DriverPortal from './pages/DriverPortal'
 import ProtectedRoute from './components/ProtectedRoute'
+import Vehicles from './pages/Vehicles'
 
 const App = () => {
 	return (
 		<Routes>
 			<Route path="/" element={<Login />} />
+			<Route
+				path="/vehicles"
+				element={
+					<ProtectedRoute allowedRoles={[ 'Admin' ]}>
+						<Vehicles />
+					</ProtectedRoute>
+				}
+			/>
 			<Route
 				path="/dashboard"
 				element={

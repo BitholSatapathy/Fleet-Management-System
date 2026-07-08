@@ -3,6 +3,7 @@ const cors = require('cors')
 const dotenv = require('dotenv')
 
 const fleetRoutes = require('./routes/fleetRoutes')
+const vehicleRoutes = require('./routes/vehicleRoutes')
 const { initializeDatabase } = require('./database/database')
 
 dotenv.config()
@@ -16,6 +17,7 @@ app.use(cors())
 app.use(express.json())
 
 app.use('/api', fleetRoutes)
+app.use('/api', vehicleRoutes)
 
 app.get('/', (req, res) => {
   res.json({

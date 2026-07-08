@@ -1,13 +1,30 @@
+import { useEffect, useState } from 'react'
 import { FaGasPump, FaRoute, FaTruck, FaUsers } from 'react-icons/fa6'
 import Sidebar from '../components/Sidebar'
 import Navbar from '../components/Navbar'
 import StatCard from '../components/StatCard'
 import MapPlaceholder from '../components/MapPlaceholder'
 import RecentTrips from '../components/RecentTrips'
+import api from '../services/api'
 
 const Dashboard = () => {
+  const [vehicleCount, setVehicleCount] = useState('24')
+
+  useEffect(() => {
+    const fetchVehicleCount = async () => {
+      try {
+        const response = await api.get('/vehicles')
+        setVehicleCount(response.data.length.toString())
+      } catch (requestError) {
+        setVehicleCount('0')
+      }
+    }
+
+    fetchVehicleCount()
+  }, [])
+
   const stats = [
-    { title: 'Total Vehicles', value: '24', icon: FaTruck },
+    { title: 'Total Vehicles', value: vehicleCount, icon: FaTruck },
     { title: 'Active Trips', value: '8', icon: FaRoute },
     { title: 'Drivers', value: '18', icon: FaUsers },
     { title: 'Fuel Usage Today', value: '230 L', icon: FaGasPump },

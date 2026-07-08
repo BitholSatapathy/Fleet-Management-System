@@ -6,16 +6,19 @@ import {
   FaBox,
   FaTruckFast,
 } from 'react-icons/fa6'
+import { Link, useLocation } from 'react-router-dom'
 
 const menuItems = [
-  { label: 'Dashboard', icon: FaTruckFast, active: true },
-  { label: 'Vehicles', icon: FaTruck },
+  { label: 'Dashboard', icon: FaTruckFast, to: '/dashboard' },
+  { label: 'Vehicles', icon: FaTruck, to: '/vehicles' },
   { label: 'Drivers', icon: FaPeopleGroup },
   { label: 'Trips', icon: FaRoute },
   { label: 'Orders', icon: FaClipboardList },
 ]
 
 const Sidebar = () => {
+  const location = useLocation()
+
   return (
     <aside className="fixed inset-y-0 left-0 z-30 hidden w-64 border-r border-blue-100 bg-white/95 px-5 py-6 shadow-lg shadow-blue-100/70 backdrop-blur xl:flex xl:flex-col">
       <div className="mb-10 flex items-center gap-3 px-1">
@@ -31,20 +34,32 @@ const Sidebar = () => {
       </div>
 
       <nav className="space-y-2">
-        {menuItems.map(({ label, icon: Icon, active }) => (
-          <a
-            key={label}
-            href="#"
-            className={`flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-medium transition ${
-              active
-                ? 'bg-blue-50 text-blue-700 ring-1 ring-blue-100'
-                : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'
-            }`}
-          >
-            <Icon className={`text-base ${active ? 'text-blue-600' : 'text-slate-400'}`} />
-            {label}
-          </a>
-        ))}
+        {menuItems.map(({ label, icon: Icon, to, active }) => {
+          const isActive = to ? location.pathname === to : active
+
+          const content = (
+            <>
+              <Icon className={`text-base ${isActive ? 'text-blue-600' : 'text-slate-400'}`} />
+              {label}
+            </>
+          )
+
+          const linkClassName = `flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-medium transition ${
+            isActive
+              ? 'bg-blue-50 text-blue-700 ring-1 ring-blue-100'
+              : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'
+          }`
+
+          return to ? (
+            <Link key={label} to={to} className={linkClassName}>
+              {content}
+            </Link>
+          ) : (
+            <span key={label} className={linkClassName}>
+              {content}
+            </span>
+          )
+        })}
       </nav>
 
       <div className="mt-auto rounded-3xl bg-gradient-to-br from-blue-600 to-sky-500 p-5 text-white shadow-xl shadow-blue-200">

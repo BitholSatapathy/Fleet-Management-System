@@ -4,7 +4,7 @@ import { useAuth } from '../context/AuthContext'
 
 const Navbar = () => {
   const navigate = useNavigate()
-  const { logout } = useAuth()
+  const { logout, user, role } = useAuth()
 
   const handleLogout = () => {
     logout()
@@ -28,8 +28,12 @@ const Navbar = () => {
 
         <div className="flex items-center gap-3 rounded-full border border-slate-200 bg-white px-3 py-2 shadow-sm">
           <div className="flex flex-col items-end leading-tight">
-            <span className="text-sm font-semibold text-slate-900">Admin</span>
-            <span className="text-xs text-slate-500">Operations Lead</span>
+            <span className="text-sm font-semibold text-slate-900">
+              {role || 'Admin'}
+            </span>
+            <span className="text-xs text-slate-500">
+              {user === 'driver' ? 'Driver' : 'Operations Lead'}
+            </span>
           </div>
           <div className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-600 text-white shadow-md shadow-blue-200">
             <FaCircleUser className="text-2xl" />
