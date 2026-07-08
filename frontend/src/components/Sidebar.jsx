@@ -1,20 +1,20 @@
 import {
-  FaClipboardList,
   FaTruck,
-  FaPeopleGroup,
-  FaRoute,
-  FaBox,
+  FaBoxOpen,
   FaTruckFast,
+  FaBox,
 } from 'react-icons/fa6'
 import { Link, useLocation } from 'react-router-dom'
 
 const menuItems = [
   { label: 'Dashboard', icon: FaTruckFast, to: '/dashboard' },
+  { label: 'Live Tracking', icon: FaTruck, to: '/live-tracking' },
+  { label: 'Analytics', icon: FaTruckFast, to: '/analytics' },
   { label: 'Vehicles', icon: FaTruck, to: '/vehicles' },
-  { label: 'Drivers', icon: FaPeopleGroup },
-  { label: 'Trips', icon: FaRoute },
-  { label: 'Orders', icon: FaClipboardList },
+
+  { label: 'Logistics', icon: FaBoxOpen, to: '/logistics' },
 ]
+
 
 const Sidebar = () => {
   const location = useLocation()
@@ -34,15 +34,8 @@ const Sidebar = () => {
       </div>
 
       <nav className="space-y-2">
-        {menuItems.map(({ label, icon: Icon, to, active }) => {
-          const isActive = to ? location.pathname === to : active
-
-          const content = (
-            <>
-              <Icon className={`text-base ${isActive ? 'text-blue-600' : 'text-slate-400'}`} />
-              {label}
-            </>
-          )
+        {menuItems.map(({ label, icon: Icon, to }) => {
+          const isActive = location.pathname === to
 
           const linkClassName = `flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-medium transition ${
             isActive
@@ -50,14 +43,11 @@ const Sidebar = () => {
               : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'
           }`
 
-          return to ? (
+          return (
             <Link key={label} to={to} className={linkClassName}>
-              {content}
+              <Icon className={`text-base ${isActive ? 'text-blue-600' : 'text-slate-400'}`} />
+              {label}
             </Link>
-          ) : (
-            <span key={label} className={linkClassName}>
-              {content}
-            </span>
           )
         })}
       </nav>
