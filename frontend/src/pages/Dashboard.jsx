@@ -1,47 +1,39 @@
-import { useEffect, useState } from 'react'
-import api from '../services/api'
+import { FaGasPump, FaRoute, FaTruck, FaUsers } from 'react-icons/fa6'
+import Sidebar from '../components/Sidebar'
+import Navbar from '../components/Navbar'
+import StatCard from '../components/StatCard'
+import MapPlaceholder from '../components/MapPlaceholder'
+import RecentTrips from '../components/RecentTrips'
 
 const Dashboard = () => {
-  const [status, setStatus] = useState('')
-  const [project, setProject] = useState('')
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState('')
-
-  useEffect(() => {
-    const fetchStatus = async () => {
-      try {
-        const response = await api.get('/status')
-        setStatus(response.data.status)
-        setProject(response.data.project)
-      } catch (requestError) {
-        setError('Failed to connect to backend.')
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    fetchStatus()
-  }, [])
+  const stats = [
+    { title: 'Total Vehicles', value: '24', icon: FaTruck },
+    { title: 'Active Trips', value: '8', icon: FaRoute },
+    { title: 'Drivers', value: '18', icon: FaUsers },
+    { title: 'Fuel Usage Today', value: '230 L', icon: FaGasPump },
+  ]
 
   return (
-    <main className="dashboard">
-      <h1>Backend Status</h1>
+    <div className="min-h-screen bg-slate-100">
+      <Sidebar />
 
-      {loading ? (
-        <p>Loading...</p>
-      ) : error ? (
-        <p>{error}</p>
-      ) : (
-        <div className="status-block">
-          <p>
-            <strong>Status:</strong> {status}
-          </p>
-          <p>
-            <strong>Project:</strong> {project}
-          </p>
-        </div>
-      )}
-    </main>
+      <div className="xl:pl-64">
+        <Navbar />
+
+        <main className="space-y-8 p-4 md:p-6 xl:p-8">
+          <section className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+            {stats.map((stat) => (
+              <StatCard key={stat.title} {...stat} />
+            ))}
+          </section>
+
+          <section className="grid gap-8">
+            <MapPlaceholder />
+            <RecentTrips />
+          </section>
+        </main>
+      </div>
+    </div>
   )
 }
 

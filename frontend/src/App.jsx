@@ -1,7 +1,5 @@
 import Dashboard from './pages/Dashboard'
 
-const App = () => {
-  return <Dashboard />
-}
+const App = () => <Dashboard />
 
 export default App
