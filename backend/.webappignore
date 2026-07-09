@@ -1,0 +1,7 @@
+node_modules
+.git
+.env
+fleet.db
+coverage
+logs
+npm-debug.log
